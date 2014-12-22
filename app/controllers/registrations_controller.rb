@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations/new
   def new
     @registration = Registration.new
-    @course = Course.find_by id: params["course_id"]
+    @course = Course.find_by id: params[:course_id]
   end
 
   # POST /registrations
@@ -22,6 +22,7 @@ class RegistrationsController < ApplicationController
     if @registration.save
       redirect_to @registration.paypal_url(registration_path(@registration))
     else
+      @course = Course.find_by id: registration_params[:course_id]
       render :new
     end
   end
